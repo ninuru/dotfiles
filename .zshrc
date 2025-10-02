@@ -12,6 +12,7 @@ plugins=(
   docker-compose
   zsh-autosuggestions
   zsh-syntax-highlighting
+  H-S-MW
 )
 
 source $ZSH/oh-my-zsh.sh
