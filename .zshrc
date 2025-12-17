@@ -35,6 +35,10 @@ PROMPT+=' $(git_prompt_info)'
 export LANG=en_US.UTF-8
 export TERM=xterm-256color
 
+# Use nvim for man pages
+export MANPAGER='nvim +Man!'
+export MANWIDTH=999
+
 # --------------------------- Tmux Auto ---------------------------
 
 if [[ -v WITH_TMUX ]]; then

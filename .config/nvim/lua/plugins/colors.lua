@@ -1,3 +1,5 @@
+local config = require('../config')
+
 return {
     {
         "folke/todo-comments.nvim",
@@ -151,7 +153,11 @@ return {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
         config = function()
-            require("lualine").setup()
+            require("lualine").setup({
+                options = {
+                    theme = config.lualine.theme,
+                }
+            })
         end
     },
 }

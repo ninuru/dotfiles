@@ -3,11 +3,8 @@ return {
         "nvim-tree/nvim-tree.lua",
         config = function()
             -- disable netrw at the very start of your init.lua
-            vim.g.loaded_netrw = 1
-            vim.g.loaded_netrwPlugin = 1
-
-            -- empty setup using defaults
-            require("nvim-tree").setup()
+            -- vim.g.loaded_netrw = 1
+            -- vim.g.loaded_netrwPlugin = 1
 
             -- OR setup with some options
             require("nvim-tree").setup({
@@ -20,7 +17,7 @@ return {
                     sorter = "case_sensitive",
                 },
                 view = {
-                    width = 30,
+                    width = 40,
                 },
                 renderer = {
                     group_empty = true,

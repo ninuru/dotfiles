@@ -1,5 +1,8 @@
 local M = {
-    colorscheme = "vague"
+    colorscheme = "lunaperche",
+    lualine = {
+        theme = 'ayu',
+    },
 }
 
 return M;
