@@ -1,3 +1,4 @@
+require("config")
 require("set")
 require("remap")
 
@@ -81,3 +82,75 @@ autocmd("FileType", {
         -- vim.opt_local.iskeyword:remove("_")
     end,
 })
+
+
+-- bg must be either "none" or a hex color like "#000000"
+local function apply_bg()
+    local ok, cfg = pcall(require, "config")
+    local bg = (ok and cfg.background) or "#000000"  -- fallback
+
+    -- main editor
+    vim.api.nvim_set_hl(0, "Normal",   { bg = bg })
+    vim.api.nvim_set_hl(0, "NormalNC", { bg = bg })
+
+    -- floats (includes many UI popups)
+    vim.api.nvim_set_hl(0, "NormalFloat", { bg = bg })
+    vim.api.nvim_set_hl(0, "FloatBorder", { bg = bg })
+
+    -- command line / command bar + messages
+    -- (some groups exist only on newer nvim; pcall avoids errors)
+    pcall(vim.api.nvim_set_hl, 0, "Cmdline",       { bg = bg })
+    pcall(vim.api.nvim_set_hl, 0, "CmdlineNormal", { bg = bg })
+    pcall(vim.api.nvim_set_hl, 0, "MsgArea",       { bg = bg })
+    pcall(vim.api.nvim_set_hl, 0, "MsgSeparator",  { bg = bg })
+    vim.api.nvim_set_hl(0, "WildMenu", { bg = bg })
+
+    -- completion menu (popup menu)
+    vim.api.nvim_set_hl(0, "Pmenu",      { bg = bg })
+    vim.api.nvim_set_hl(0, "PmenuSel",   { bg = bg })
+    vim.api.nvim_set_hl(0, "PmenuSbar",  { bg = bg })
+    vim.api.nvim_set_hl(0, "PmenuThumb", { bg = bg })
+
+    -- nvim-tree
+    vim.api.nvim_set_hl(0, "NvimTreeNormal",   { bg = bg })
+    vim.api.nvim_set_hl(0, "NvimTreeNormalNC", { bg = bg })
+
+    -- line numbers
+    vim.api.nvim_set_hl(0, "LineNr",        { bg = bg })
+    vim.api.nvim_set_hl(0, "CursorLineNr",  { bg = bg })
+
+    -- newer nvim versions
+    pcall(vim.api.nvim_set_hl, 0, "LineNrAbove", { bg = bg })
+    pcall(vim.api.nvim_set_hl, 0, "LineNrBelow", { bg = bg })
+
+    -- columns left of line numbers
+    vim.api.nvim_set_hl(0, "SignColumn", { bg = bg })
+    vim.api.nvim_set_hl(0, "FoldColumn", { bg = bg })
+
+    -- also needed on many setups (cursorline variants)
+    pcall(vim.api.nvim_set_hl, 0, "CursorLineSign", { bg = bg })
+    pcall(vim.api.nvim_set_hl, 0, "CursorLineFold", { bg = bg })
+
+
+    -- current line highlight (otherwise you get a mismatched stripe)
+    vim.api.nvim_set_hl(0, "CursorLine", { bg = bg })
+
+    -- telescope
+    for _, g in ipairs({
+        "TelescopeNormal",
+        "TelescopeBorder",
+        "TelescopePromptNormal",
+        "TelescopePromptBorder",
+        "TelescopeResultsNormal",
+        "TelescopePreviewNormal",
+    }) do
+        vim.api.nvim_set_hl(0, g, { bg = bg })
+    end
+end
+
+autocmd('ColorScheme', {
+    group    = custom_group,
+    callback = apply_bg,
+})
+
+apply_bg()

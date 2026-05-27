@@ -22,11 +22,18 @@ return {
     { "tiagovla/tokyodark.nvim", },
     { "AlexvZyl/nordic.nvim", },
     { "Mofiqul/vscode.nvim", },
+    { "martinsione/darkplus.nvim", },
     { "oxfist/night-owl.nvim", },
     { "vague2k/vague.nvim", },
     { "ficcdaf/ashen.nvim", },
     { "navarasu/onedark.nvim", },
     { "olimorris/onedarkpro.nvim", },
+    { "nyoom-engineering/oxocarbon.nvim", },
+    { "sainnhe/everforest", },
+    { "ember-theme/nvim", },
+    { "niyabits/calvera-dark.nvim", },
+    { "ramojus/mellifluous.nvim", },
+    { "ayu-theme/ayu-vim", },
     {
         "blazkowolf/gruber-darker.nvim",
         config = function()
@@ -75,6 +82,14 @@ return {
             })
         end
     },
+
+    {
+        "wtfox/jellybeans.nvim",
+        lazy = false,
+        priority = 1000,
+        opts = {},
+    },
+
     {
         "catppuccin/nvim",
         name = "catppuccin",
@@ -110,21 +125,6 @@ return {
             },
         },
 
-    },
-    {
-        "ayu-theme/ayu-vim",
-        priority = -100,
-        config = function()
-            -- vim.api.nvim_set_hl(0, "@lsp.type.namespace", { fg = "#e5e5e5" })      -- Color for module paths in imports
-            -- vim.api.nvim_set_hl(0, "@lsp.type.struct.rust", { fg = "#f6993f" })    -- Color for module paths in imports
-            -- vim.api.nvim_set_hl(0, "@lsp.type.interface.rust", { fg = "#f6993f" }) -- Color for module paths in imports
-            --
-            -- vim.api.nvim_set_hl(0, "@lsp.type.namespace.java", { fg = "#e5e5e5" })
-            -- vim.api.nvim_set_hl(0, "@lsp.type.class.java", { fg = "#f6993f" })
-            -- vim.api.nvim_set_hl(0, "@lsp.type.interface.java", { fg = "#f6993f" })
-            --
-            -- vim.api.nvim_set_hl(0, "Operator", { fg = "#e5e5e5" }) -- Color for module paths in imports
-        end
     },
     {
         "xiantang/darcula-dark.nvim",

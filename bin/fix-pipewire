@@ -1,0 +1,2 @@
+rm -rf ~/.local/state/wireplumber/
+systemctl --user restart pipewire pipewire-pulse wireplumber
