@@ -1,0 +1,12 @@
+# Source from shell startup; executing this file cannot modify the parent shell.
+if [ -n "${TMUX-}" ] && command -v tmux >/dev/null 2>&1; then
+  tmux_socket_path="${TMUX%%,*}"
+  tmux_socket_name="${tmux_socket_path##*/}"
+  current_tmux_session="$(tmux display-message -p '#S' 2>/dev/null || true)"
+
+  if [ "$current_tmux_session" = "H" ] || [ "$tmux_socket_name" = "H" ]; then
+    unset HISTFILE
+  fi
+
+  unset current_tmux_session tmux_socket_name tmux_socket_path
+fi

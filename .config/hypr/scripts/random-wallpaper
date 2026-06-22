@@ -1,12 +1,21 @@
 #!/usr/bin/env bash
 
-hyprpaper &
-
 WALLPAPER_DIR="$HOME/wallpapers/"
-CURRENT_WALL=$(hyprctl hyprpaper listloaded)
+INDEX_FILE="$HOME/.cache/wallpaper-index"
 
-# Get a random wallpaper that is not the current one
-WALLPAPER=$(find "$WALLPAPER_DIR" -type f ! -name "$(basename "$CURRENT_WALL")" | shuf -n 1)
+mapfile -t WALLPAPERS < <(find "$WALLPAPER_DIR" -type f | sort)
+COUNT=${#WALLPAPERS[@]}
 
-# Apply the selected wallpaper
-hyprctl hyprpaper wallpaper ,"$WALLPAPER"
+if [[ $COUNT -eq 0 ]]; then
+    exit 1
+fi
+
+CURRENT_INDEX=$(cat "$INDEX_FILE" 2>/dev/null)
+if [[ -z "$CURRENT_INDEX" || "$CURRENT_INDEX" -lt 0 || "$CURRENT_INDEX" -ge "$COUNT" ]]; then
+    CURRENT_INDEX=0
+fi
+
+NEXT_INDEX=$(( (CURRENT_INDEX + 1) % COUNT ))
+echo "$NEXT_INDEX" > "$INDEX_FILE"
+
+hyprctl hyprpaper wallpaper ,"${WALLPAPERS[$NEXT_INDEX]}"

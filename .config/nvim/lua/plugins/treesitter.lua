@@ -16,6 +16,12 @@ return {
                 end,
             })
 
+            vim.filetype.add({
+                extension = {
+                    peb = "yaml",
+                },
+            })
+
             require("nvim-treesitter").install(
                 {
                     "vimdoc", "javascript", "typescript", "c", "lua", "rust",

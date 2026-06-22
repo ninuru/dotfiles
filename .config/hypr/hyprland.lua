@@ -192,6 +192,9 @@ hl.bind(mainMod .. " + L",     hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + V",     hl.dsp.exec_cmd("cliphist list | rofi -dmenu | cliphist decode | wl-copy"))
 hl.bind(mainMod .. " + W",     hl.dsp.exec_cmd(scriptsDir .. "/random-wallpaper"))
 
+-- Toggle waybar visibility (SIGUSR1 flips its show/hide state)
+hl.bind(mainMod .. " + SHIFT + B", hl.dsp.exec_cmd("killall -SIGUSR1 waybar"))
+
 -- Fullscreen
 hl.bind(mainMod .. " + RETURN",         hl.dsp.window.fullscreen({ mode = 1 }))
 hl.bind(mainMod .. " + SHIFT + RETURN", hl.dsp.window.fullscreen({ mode = 0 }))
@@ -209,11 +212,72 @@ hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd(scriptsDir .. "/screenshot.sh
 -- Recording
 hl.bind(mainMod .. " + SHIFT + R", hl.dsp.exec_cmd("hyprvoice toggle"))
 
+-- Toggle window transparency
+local opacity_opaque = false  -- starts transparent (matches decoration config above)
+hl.bind(mainMod .. " + O", function()
+    if opacity_opaque then
+        hl.config({ decoration = { active_opacity = 0.9, inactive_opacity = 0.8 } })
+    else
+        hl.config({ decoration = { active_opacity = 1.0, inactive_opacity = 1.0 } })
+    end
+    opacity_opaque = not opacity_opaque
+end)
+
 -- Move focus
 hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left"  }))
 hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + k", hl.dsp.focus({ direction = "up"    }))
 hl.bind(mainMod .. " + j", hl.dsp.focus({ direction = "down"  }))
+
+-- Collect all windows onto the current monitor's workspaces (useful when external monitors disconnect).
+-- Maps each window to its equivalent workspace index on this monitor:
+-- ws 11 → 1, ws 21 → 1, ws 12 → 2, ws 22 → 2, etc.
+local function grab_all_workspaces()
+    local ws_count = smw.get_amount_of_workspaces()
+    for _, win in ipairs(hl.get_windows()) do
+        if win.workspace and not win.workspace.special then
+            local ws_num = tonumber(win.workspace.name)
+            if ws_num then
+                local target = tostring(((ws_num - 1) % ws_count) + 1)
+                hl.dispatch(hl.dsp.window.move({ workspace = target, window = win, follow = false }))
+            end
+        end
+    end
+end
+
+hl.bind(mainMod .. " + SHIFT + M", function() grab_all_workspaces() end)
+
+-- Focus monitor (SUPER + , / SUPER + .)
+local function focus_monitor(delta)
+    local monitors = hl.get_monitors()
+    local active   = hl.get_active_monitor()
+    if not active or #monitors < 2 then return end
+    local idx = 1
+    for i, m in ipairs(monitors) do
+        if m.id == active.id then idx = i; break end
+    end
+    local target = monitors[((idx - 1 + delta) % #monitors) + 1]
+    local ws = hl.get_active_workspace(target)
+    if ws then hl.dispatch(hl.dsp.focus({ workspace = ws.name })) end
+end
+
+local function move_window_to_monitor(delta)
+    local monitors = hl.get_monitors()
+    local active   = hl.get_active_monitor()
+    if not active or #monitors < 2 then return end
+    local idx = 1
+    for i, m in ipairs(monitors) do
+        if m.id == active.id then idx = i; break end
+    end
+    local target = monitors[((idx - 1 + delta) % #monitors) + 1]
+    local ws = hl.get_active_workspace(target)
+    if ws then hl.dispatch(hl.dsp.window.move({ workspace = ws.name })) end
+end
+
+hl.bind(mainMod .. " + COMMA",        function() focus_monitor(-1)        end)
+hl.bind(mainMod .. " + PERIOD",       function() focus_monitor(1)         end)
+hl.bind(mainMod .. " + SHIFT + COMMA",  function() move_window_to_monitor(-1) end)
+hl.bind(mainMod .. " + SHIFT + PERIOD", function() move_window_to_monitor(1)  end)
 
 -- Switch workspaces and move windows (per-monitor via smw)
 for i = 1, smw.get_amount_of_workspaces() do

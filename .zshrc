@@ -66,3 +66,6 @@ alias lla='ls -la'
 alias lt='ls --tree'
 
 alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --branches"
+
+# claude-acc: auto-generated shell functions
+eval "$(claude-acc shell-init)"

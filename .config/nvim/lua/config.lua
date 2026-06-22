@@ -1,7 +1,6 @@
 local M = {
     -- colorscheme = "lunaperche",
-    colorscheme = "kanagawa",
-    -- background = "#000000",
+    colorscheme = "rose-pine",
     background = "#000000",
     lualine = {
         theme = 'ayu',
