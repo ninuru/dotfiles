@@ -9,6 +9,9 @@ return {
             vim.cmd("cnoreabbrev NTO NvimTreeOpen")
             vim.cmd("cnoreabbrev nto NvimTreeOpen")
 
+            vim.cmd("cnoreabbrev NTC NvimTreeClose")
+            vim.cmd("cnoreabbrev ntc NvimTreeClose")
+
             -- Auto Start
             vim.api.nvim_create_autocmd("FileType", {
                 callback = function()

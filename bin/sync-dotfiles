@@ -35,6 +35,7 @@ if [[ ! -z $unmerged_files ]]; then
    echo
    printf %"s\n" $unmerged_files  # Ensure newlines are printed
 else
+   echo 'Running stow to synchronize dotfiles'
    # Run stow to ensure all new dotfiles are linked
    stow . -t $HOME
 fi

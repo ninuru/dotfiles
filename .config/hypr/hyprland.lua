@@ -24,7 +24,8 @@ hl.monitor({ output = "DP-10", mode = "1920x1080", position = "auto", scale = 1 
 --------------------
 
 hl.on("hyprland.start", function()
-    hl.exec_cmd("waybar & (hyprpaper & sleep 5 && " .. scriptsDir .. "/random-wallpaper) & hypridle &")
+    -- Start waybar hidden by default; SUPER+SHIFT+B (SIGUSR1) toggles it visible
+    hl.exec_cmd("waybar & (sleep 1 && killall -SIGUSR1 waybar) & (hyprpaper & sleep 5 && " .. scriptsDir .. "/random-wallpaper) & hypridle &")
     hl.exec_cmd("[workspace 1] firefox")
     hl.exec_cmd("[workspace 2] WITH_TMUX=1 " .. terminal)
     hl.exec_cmd("[workspace 3] discord")
@@ -49,10 +50,10 @@ hl.env("HYPRCURSOR_SIZE", "24")
 
 hl.config({
     general = {
-        gaps_in  = 3,
-        gaps_out = 7,
+        gaps_in  = 0,
+        gaps_out = 0,
 
-        border_size = 1,
+        border_size = 0,
 
         col = {
             active_border   = { colors = {"rgba(33ccffee)", "rgba(00ff99ee)"}, angle = 45 },
@@ -65,7 +66,7 @@ hl.config({
     },
 
     decoration = {
-        rounding       = 10,
+        rounding       = 0,
         rounding_power = 2,
 
         active_opacity   = 0.9,
