@@ -106,10 +106,10 @@ local function apply_bg()
     vim.api.nvim_set_hl(0, "WildMenu", { bg = bg })
 
     -- completion menu (popup menu)
+    -- PmenuSel/PmenuThumb keep the colorscheme's contrasting colors,
+    -- otherwise the selected entry is invisible against the menu bg
     vim.api.nvim_set_hl(0, "Pmenu",      { bg = bg })
-    vim.api.nvim_set_hl(0, "PmenuSel",   { bg = bg })
     vim.api.nvim_set_hl(0, "PmenuSbar",  { bg = bg })
-    vim.api.nvim_set_hl(0, "PmenuThumb", { bg = bg })
 
     -- nvim-tree
     vim.api.nvim_set_hl(0, "NvimTreeNormal",   { bg = bg })
