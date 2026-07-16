@@ -2,6 +2,7 @@
 {
     // "layer": "top", // Waybar at top layer
     // "position": "bottom", // Waybar position (top|bottom|left|right)
+    "output": "eDP-1", // Only show the bar on the primary (laptop) monitor
     "height": 50, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     "spacing": 10, // Gaps between modules (4px)
