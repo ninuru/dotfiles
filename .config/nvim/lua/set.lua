@@ -32,3 +32,9 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 vim.opt.colorcolumn = "180"
+
+-- the built-in sql ftplugin maps <C-C>x and <Left>/<Right> in insert mode
+vim.g.omni_sql_no_default_maps = 1
+
+-- load trusted per-project .nvim.lua files (e.g. vim.g.db in SQL projects)
+vim.opt.exrc = true

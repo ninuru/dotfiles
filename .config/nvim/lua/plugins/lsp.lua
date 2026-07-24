@@ -12,7 +12,7 @@ return {
             "L3MON4D3/LuaSnip",
             "saadparwaiz1/cmp_luasnip",
             "j-hui/fidget.nvim",
-            "jiangmiao/auto-pairs",
+            "windwp/nvim-autopairs",
             "numToStr/Comment.nvim",
         },
 
@@ -33,6 +33,7 @@ return {
                     "rust_analyzer",
                     "perlnavigator",
                     "clangd",
+                    "postgres_lsp",
                 },
             })
 
@@ -49,6 +50,17 @@ return {
                         }
                     }
                 }
+            })
+
+            vim.lsp.config("postgres_lsp", {
+                -- use the global config (DB connection) and attach to standalone
+                -- SQL buffers instead of requiring a per-project jsonc
+                cmd = {
+                    "postgres-language-server",
+                    "lsp-proxy",
+                    "--config-path=" .. vim.fn.expand("~/.config/postgres-language-server"),
+                },
+                workspace_required = false,
             })
 
             vim.lsp.config("perlnavigator", {
@@ -95,6 +107,10 @@ return {
                     { name = 'buffer' },
                 })
             })
+
+            require("nvim-autopairs").setup({})
+            -- insert () after confirming a function completion
+            cmp.event:on("confirm_done", require("nvim-autopairs.completion.cmp").on_confirm_done())
 
             vim.diagnostic.config({
                 -- update_in_insert = true,
