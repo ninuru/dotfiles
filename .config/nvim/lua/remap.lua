@@ -36,6 +36,16 @@ vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
   { desc = "Replace word under cursor (file-wide)" })
 
+-- tmux-style zoom: fullscreen the current window in a new tab, toggle back
+vim.keymap.set("n", "<C-w>z", function()
+  if vim.w.zoomed and vim.fn.tabpagenr("$") > 1 then
+    vim.cmd.tabclose()
+  else
+    vim.cmd("tab split")
+    vim.w.zoomed = true
+  end
+end, { desc = "Toggle zoom of current window" })
+
 vim.api.nvim_create_user_command("Diff", "Gvdiffsplit", {})
 vim.api.nvim_create_user_command("Diffv", "Gvdiffsplit", {})
 vim.api.nvim_create_user_command("Diffh", "Ghdiffsplit", {})
