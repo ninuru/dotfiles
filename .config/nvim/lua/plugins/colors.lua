@@ -13,7 +13,14 @@ return {
     { "projekt0n/github-nvim-theme" },
     { "sainnhe/gruvbox-material" },
     { "morhetz/gruvbox" },
-    { "rose-pine/neovim" },
+    {
+        "rose-pine/neovim",
+        config = function()
+            require("rose-pine").setup({
+                styles = { italic = false },
+            })
+        end,
+    },
     { "rebelot/kanagawa.nvim" },
     { "arturgoms/moonbow.nvim", },
     { "aktersnurra/no-clown-fiesta.nvim", },

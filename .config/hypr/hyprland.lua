@@ -361,3 +361,21 @@ hl.window_rule({
     pin   = true,
     size  = "800 450",
 })
+
+-- Browser windows started by the chrome-devtools MCP (screenshots, UI checks) go to the special workspace.
+local function is_devtools_chrome(pid)
+    if not pid or pid <= 0 then return false end
+    local f = io.open("/proc/" .. pid .. "/cmdline", "rb")
+    if not f then return false end
+    local cmdline = f:read("*a") or ""
+    f:close()
+    return cmdline:find("chrome-devtools-mcp/chrome-profile", 1, true) ~= nil
+end
+
+hl.on("window.open", function(win)
+    if type(win) ~= "table" and type(win) ~= "userdata" then return end
+    if win.class ~= "google-chrome" then return end
+    if win.workspace and win.workspace.special then return end
+    if not is_devtools_chrome(win.pid) then return end
+    hl.dispatch(hl.dsp.window.move({ workspace = "special", window = win, follow = false }))
+end)

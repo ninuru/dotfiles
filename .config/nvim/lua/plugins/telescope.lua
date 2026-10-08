@@ -8,6 +8,11 @@ return {
 
         config = function()
             require('telescope').setup({
+                pickers = {
+                    find_files = {
+                        follow = true,
+                    }
+                },
                 extensions = {
                     recent_files = {
                         only_cwd = true,

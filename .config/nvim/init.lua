@@ -11,7 +11,13 @@ local custom_group = augroup('Custom', {})
 vim.filetype.add({
     extension = {
         templ = 'templ',
-    }
+        conf = 'dosini',
+    },
+    pattern = {
+        ['.*%.%.latest'] = function(path, bufnr)
+            return vim.filetype.match({ filename = (path:gsub('%.%.latest$', '')), buf = bufnr })
+        end,
+    },
 })
 
 autocmd('TextYankPost', {

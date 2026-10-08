@@ -64,6 +64,7 @@ button:hover {
 #pulseaudio,
 #wireplumber,
 #custom-media,
+#custom-yubikey,
 #tray,
 #mode,
 #idle_inhibitor,
@@ -264,4 +265,14 @@ label:focus {
 }
 
 #privacy-item.audio-out {
+}
+
+#custom-yubikey.touch {
+    color: #000000;
+    background-color: #f1c40f;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
 }
